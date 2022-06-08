@@ -1,6 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import styles from './Header.module.css';
+
+function FilterButton() {
+  const [button, toggleButton] = useState(false);
+
+  return (
+    <button
+      className={styles.spaHeaderFilterLiked}
+      onClick={() => toggleButton(!button)}
+    >
+      Show { !button ? '💛' : 'all' }
+    </button>
+  );
+}
 
 export function Header() {
   return (
@@ -12,11 +25,7 @@ export function Header() {
       >
         Dogs & facts
       </div>
-      <button
-        className={styles.spaHeaderFilterLiked}
-      >
-        Show liked
-      </button>
+      <FilterButton />
     </header>
   );
 }
