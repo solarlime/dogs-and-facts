@@ -1,0 +1,22 @@
+.spaHeader {
+  display: flex;
+  justify-content: space-between;
+  background: gold;
+  padding: 4vmin;
+}
+
+.spaHeaderText {
+  color: black;
+  font-size: 5vmin;
+  font-weight: bold;
+}
+
+.spaHeaderFilterLiked {
+  background: dodgerblue;
+  color: white;
+  padding: 1vmin;
+  font-size: 3vmin;
+  border: 1px solid rgba(30, 144, 255, 0.3);
+}
+
+
