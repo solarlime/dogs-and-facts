@@ -1,8 +1,11 @@
 .spaHeader {
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: space-between;
   background: gold;
   padding: 4vmin;
+  border-bottom: 1vmin solid dodgerblue;
 }
 
 .spaHeaderText {
@@ -14,9 +17,22 @@
 .spaHeaderFilterLiked {
   background: dodgerblue;
   color: white;
-  padding: 1vmin;
-  font-size: 3vmin;
-  border: 1px solid rgba(30, 144, 255, 0.3);
+  padding: 1vmin 2vmin;
+  /* Font-size should be 3vmin, but interface
+  slightly moves because of a heart. Smaller size fixes it */
+  font-size: 2.5vmin;
+  border: 0;
+}
+
+@media (max-width: 500px) {
+  .spaHeaderText {
+    font-size: 9vmin;
+  }
+
+  .spaHeaderFilterLiked {
+    padding: 2vmin 3vmin;
+    font-size: 4vmin;
+  }
 }
 
 
