@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import { Header } from './features/header/Header';
+import { Main } from './features/main/Main';
 import { Counter } from './features/counter/Counter';
 import './App.css';
 
@@ -8,6 +9,7 @@ function App() {
   return (
     <div className="App">
       <Header />
+      <Main />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <Counter />

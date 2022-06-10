@@ -1,0 +1,71 @@
+.spaMain {
+  display: block;
+  background: white;
+  padding: 3vmin;
+  border: 1vmin solid dodgerblue;
+  border-top: 0;
+}
+
+.spaMainCards {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 3vmin;
+}
+
+@supports (grid-template-rows: masonry) {
+  .spaMainCards {
+    grid-template-rows: masonry;
+  }
+}
+
+.spaMainCardsCard {
+  width: 100%;
+  border: 1vmin solid gold;
+  box-sizing: border-box;
+}
+
+.spaMainCardsCardFigure {
+  margin: 2vmin;
+}
+
+.spaMainCardsCardFigureImage {
+  width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid lightgrey;
+}
+
+.spaMainCardsCardFigureButtons {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.spaMainCardsCardFigureButtonsButton {
+  width: 48%;
+  padding: 10px;
+  margin-right: 4%;
+  margin-top: 10px;
+  border: 1px solid gold;
+  border-radius: 10px;
+  background: white;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.spaMainCardsCardFigureButtonsButton:last-child {
+  margin-right: 0;
+}
+
+.spaMainCardsCardFigureButtonsLike:hover {
+  border-color: dodgerblue;
+}
+
+.spaMainCardsCardFigureButtonsLiked {
+  background: dodgerblue;
+  border-color: dodgerblue;
+}
+
+.spaMainCardsCardFigureButtonsDelete:hover {
+  border-color: #eb0000;
+}
+
