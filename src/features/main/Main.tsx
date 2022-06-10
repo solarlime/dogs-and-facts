@@ -23,20 +23,31 @@ function DogFact(props: { fact: string }) {
 function Like() {
   const [like, setLike] = useState(false);
 
+  const isLiked = (liked: boolean) => {
+    const element: { class: string, content: string } = {
+      class: styles.spaMainCardsCardFigureButtonsLike,
+      content: '💙️',
+    };
+    if (liked) {
+      return {
+        class: styles.spaMainCardsCardFigureButtonsLiked,
+        content: '💛',
+      }
+    }
+    return element;
+  };
+
+  const result = isLiked(like);
+
   return (
     <>
       {
-        (!like) ? (
-          <button
-            className={styles.spaMainCardsCardFigureButtonsButton + ' ' + styles.spaMainCardsCardFigureButtonsLike}
-            onClick={() => setLike(!like)}
-          >💙️</button>
-        ) : (
-          <button
-            className={styles.spaMainCardsCardFigureButtonsButton + ' ' + styles.spaMainCardsCardFigureButtonsLiked}
-            onClick={() => setLike(!like)}
-          >💛</button>
-        )
+        <button
+          className={
+          `${styles.spaMainCardsCardFigureButtonsButton} ${result.class}`
+        }
+          onClick={() => setLike(!like)}
+        >{result.content}</button>
       }
     </>
   );
