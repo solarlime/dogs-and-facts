@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import logo2 from '../../logo2.jpg';
-import logo3 from '../../logo3.jpg';
 
 import styles from './Main.module.css';
+import {useAppSelector} from "../../app/hooks";
+import {selectData} from "./MainSlice";
 
 function DogImage(props: { logo: string }) {
   return (
@@ -68,11 +68,11 @@ function Buttons() {
   );
 }
 
-function Card(props: { logo: string, fact: string }) {
+function Card(props: { dog: string, fact: string }) {
   return (
     <article className={styles.spaMainCardsCard}>
       <figure className={styles.spaMainCardsCardFigure}>
-        <DogImage logo={props.logo} />
+        <DogImage logo={props.dog} />
         <DogFact fact={props.fact} />
         <Buttons />
       </figure>
@@ -81,23 +81,20 @@ function Card(props: { logo: string, fact: string }) {
 }
 
 export function Main() {
+  const data = useAppSelector(selectData);
+
+  const cards = data.map((card) => {
+    return (
+      <Card key={card.id} dog={card.dog} fact={card.fact} />
+    );
+  });
+
   return (
     <main
       className={styles.spaMain}
     >
       <section className={styles.spaMainCards}>
-        <Card logo={logo3} fact="A big fact" />
-        <Card logo={logo3} fact="A very big fact" />
-        <Card logo={logo2} fact="A very very very big fact" />
-        <Card logo={logo2} fact="An enormously big and shocking fact" />
-        <Card logo={logo3} fact="A big fact" />
-        <Card logo={logo3} fact="A very big fact" />
-        <Card logo={logo2} fact="A very very very big fact" />
-        <Card logo={logo2} fact="An enormously big and shocking fact" />
-        <Card logo={logo3} fact="A big fact" />
-        <Card logo={logo2} fact="A very big fact" />
-        <Card logo={logo3} fact="A very very very big fact" />
-        <Card logo={logo2} fact="An enormously big and shocking fact" />
+        {cards}
       </section>
     </main>
   );
