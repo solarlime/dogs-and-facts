@@ -19,6 +19,25 @@
   }
 }
 
+.masonryGrid {
+  display: flex;
+  margin-left: -3vmin; /* gutter size offset */
+  width: auto;
+}
+.masonryGridColumn {
+  padding-left: 3vmin; /* gutter size */
+  background-clip: padding-box;
+}
+
+/* Style your items */
+.masonryGridColumn > article {
+  margin-bottom: 3vmin;
+}
+
+.masonryGridColumn > article:last-child {
+  margin-bottom: 0;
+}
+
 .spaMainCardsCard {
   width: 100%;
   border: 1vmin solid gold;
@@ -68,4 +87,3 @@
 .spaMainCardsCardFigureButtonsDelete:hover {
   border-color: #eb0000;
 }
-

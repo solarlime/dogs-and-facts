@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {Suspense, useState} from 'react';
 
 import styles from './Main.module.css';
 import {useAppSelector} from "../../app/hooks";
@@ -88,6 +88,23 @@ export function Main() {
       <Card key={card.id} dog={card.dog} fact={card.fact} />
     );
   });
+
+  if (!window.CSS.supports('grid-template-rows', 'masonry')) {
+    const Masonry = React.lazy(() => import('react-masonry-css'));
+    return (
+      <main className={styles.spaMain}>
+        <Suspense fallback={<div>Loading layout...</div>}>
+          <Masonry
+            className={styles.masonryGrid}
+            breakpointCols={{ default: 7, 450: 1, 700: 2, 950: 3, 1150: 4, 1400: 5, 1600: 6 }}
+            columnClassName={styles.masonryGridColumn}
+          >
+            {cards}
+          </Masonry>
+        </Suspense>
+      </main>
+    );
+  }
 
   return (
     <main
