@@ -1,8 +1,8 @@
-import React, {Suspense, useState} from 'react';
+import React, {Suspense} from 'react';
 
 import styles from './Main.module.css';
-import {useAppSelector} from "../../app/hooks";
-import {selectData} from "./MainSlice";
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {selectData, toggleLike} from "./MainSlice";
 
 function DogImage(props: { logo: string }) {
   return (
@@ -20,15 +20,18 @@ function DogFact(props: { fact: string }) {
   );
 }
 
-function Like() {
-  const [like, setLike] = useState(false);
+function Like(props: { id: string, liked: boolean }) {
+  const dispatch = useAppDispatch();
+  const toggle = () => {
+    dispatch(toggleLike(props.id));
+  };
 
-  const isLiked = (liked: boolean) => {
+  const isLiked = (like: boolean) => {
     const element: { class: string, content: string } = {
       class: styles.spaMainCardsCardFigureButtonsLike,
       content: '💙️',
     };
-    if (liked) {
+    if (like) {
       return {
         class: styles.spaMainCardsCardFigureButtonsLiked,
         content: '💛',
@@ -37,7 +40,7 @@ function Like() {
     return element;
   };
 
-  const result = isLiked(like);
+  const result = isLiked(props.liked);
 
   return (
     <>
@@ -46,7 +49,7 @@ function Like() {
           className={
           `${styles.spaMainCardsCardFigureButtonsButton} ${result.class}`
         }
-          onClick={() => setLike(!like)}
+          onClick={toggle}
         >{result.content}</button>
       }
     </>
@@ -59,22 +62,22 @@ function Delete() {
   );
 }
 
-function Buttons() {
+function Buttons(props: { id: string, liked: boolean }) {
   return(
     <div className={styles.spaMainCardsCardFigureButtons}>
-      <Like />
+      <Like id={props.id} liked={props.liked} />
       <Delete />
     </div>
   );
 }
 
-function Card(props: { dog: string, fact: string }) {
+function Card(props: { dog: string, fact: string, id: string, liked: boolean }) {
   return (
     <article className={styles.spaMainCardsCard}>
       <figure className={styles.spaMainCardsCardFigure}>
         <DogImage logo={props.dog} />
         <DogFact fact={props.fact} />
-        <Buttons />
+        <Buttons id={props.id} liked={props.liked} />
       </figure>
     </article>
   );
@@ -85,7 +88,7 @@ export function Main() {
 
   const cards = data.map((card) => {
     return (
-      <Card key={card.id} dog={card.dog} fact={card.fact} />
+      <Card key={card.id} dog={card.dog} fact={card.fact} id={card.id} liked={card.liked} />
     );
   });
 

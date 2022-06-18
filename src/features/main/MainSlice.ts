@@ -8,6 +8,7 @@ interface MainState {
     id: string,
     dog: string,
     fact: string,
+    liked: boolean,
   }>
   status: 'idle' | 'loading' | 'failed',
 }
@@ -37,7 +38,7 @@ export const getDogsAndFacts = createAsyncThunk('main/getDogsAndFacts', async ()
   const [dogs, facts] = rawResults;
   const result = (dogs as dogAPI).message.map((dog: string, i: number) => {
     return {
-      id: uniqueID(), dog, fact: (facts as factsAPI).facts[i],
+      id: uniqueID(), dog, fact: (facts as factsAPI).facts[i], liked: false,
     }
   })
   return result;
@@ -47,7 +48,13 @@ const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    toggleLike: (state, action) => {},
+    toggleLike: (state, action) => {
+      const cardID = action.payload;
+      const card = state.data.find((item) => item.id === cardID);
+      if (card) {
+        card.liked = !card.liked;
+      }
+    },
     likeFilterChange: (state, action) => {},
   },
   extraReducers: (builder) => {
@@ -65,6 +72,7 @@ const mainSlice = createSlice({
   },
 });
 
+export const { toggleLike } = mainSlice.actions;
 export const selectData = (state: RootState) => state.main.data;
 
 export default mainSlice.reducer;
