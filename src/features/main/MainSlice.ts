@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {createAsyncThunk, createSelector, createSlice} from "@reduxjs/toolkit";
 import uniqueID from "uniqid";
 import { dogAPI, factsAPI } from "./apiInterfaces";
 import {RootState} from "../../app/store";
@@ -50,7 +50,7 @@ const mainSlice = createSlice({
   reducers: {
     toggleLike: (state, action) => {
       const cardID = action.payload;
-      const card = state.data.find((item) => item.id === cardID);
+      const card = state.data.find((item) => item.id === cardID)!;
       if (card) {
         card.liked = !card.liked;
       }
@@ -74,5 +74,12 @@ const mainSlice = createSlice({
 
 export const { toggleLike } = mainSlice.actions;
 export const selectData = (state: RootState) => state.main.data;
+
+export const selectID = createSelector(
+  selectData,
+  (data) => data.map((card) => card.id),
+);
+
+export const selectCardByID = (state: RootState, id: string) => state.main.data.find((card) => card.id === id)!;
 
 export default mainSlice.reducer;

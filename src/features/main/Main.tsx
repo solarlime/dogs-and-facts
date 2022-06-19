@@ -2,7 +2,8 @@ import React, {Suspense} from 'react';
 
 import styles from './Main.module.css';
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import {selectData, toggleLike} from "./MainSlice";
+import {selectCardByID, selectID, toggleLike} from "./MainSlice";
+import {shallowEqual} from "react-redux";
 
 function DogImage(props: { logo: string }) {
   return (
@@ -71,24 +72,25 @@ function Buttons(props: { id: string, liked: boolean }) {
   );
 }
 
-function Card(props: { dog: string, fact: string, id: string, liked: boolean }) {
+function Card(props: { id: string }) {
+  const card = useAppSelector((state) => selectCardByID(state, props.id));
   return (
     <article className={styles.spaMainCardsCard}>
       <figure className={styles.spaMainCardsCardFigure}>
-        <DogImage logo={props.dog} />
-        <DogFact fact={props.fact} />
-        <Buttons id={props.id} liked={props.liked} />
+        <DogImage logo={card.dog} />
+        <DogFact fact={card.fact} />
+        <Buttons id={card.id} liked={card.liked} />
       </figure>
     </article>
   );
 }
 
 export function Main() {
-  const data = useAppSelector(selectData);
+  const data = useAppSelector(selectID, shallowEqual);
 
-  const cards = data.map((card) => {
+  const cards = data.map((id) => {
     return (
-      <Card key={card.id} dog={card.dog} fact={card.fact} id={card.id} liked={card.liked} />
+      <Card key={id} id={id} />
     );
   });
 
