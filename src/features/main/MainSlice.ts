@@ -2,6 +2,7 @@ import {createAsyncThunk, createSelector, createSlice} from "@reduxjs/toolkit";
 import uniqueID from "uniqid";
 import { dogAPI, factsAPI } from "./apiInterfaces";
 import {RootState} from "../../app/store";
+import {selectCardStatus} from "../filters/FiltersSlice";
 
 interface MainState {
   data: Array<{
@@ -75,8 +76,19 @@ const mainSlice = createSlice({
 export const { toggleLike } = mainSlice.actions;
 export const selectData = (state: RootState) => state.main.data;
 
-export const selectID = createSelector(
+export const selectLikedData = createSelector(
   selectData,
+  selectCardStatus,
+  (data, liked) => {
+    if (liked) {
+      return data.filter((card) => card.liked === liked);
+    }
+    return data;
+  },
+);
+
+export const selectID = createSelector(
+  selectLikedData,
   (data) => data.map((card) => card.id),
 );
 

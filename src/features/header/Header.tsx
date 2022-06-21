@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import styles from './Header.module.css';
+import {useAppDispatch, useAppSelector} from "../../app/hooks";
+import {likeFilterChange, selectCardStatus} from "../filters/FiltersSlice";
 
 function FilterButton() {
-  const [button, toggleButton] = useState(false);
+  const cardStatus = useAppSelector(selectCardStatus);
+  const dispatch = useAppDispatch();
+
+  const toggleLikeFilter = () => {
+    dispatch(likeFilterChange(!cardStatus));
+  }
 
   return (
     <button
       className={styles.spaHeaderFilterLiked}
-      onClick={() => toggleButton(!button)}
+      onClick={toggleLikeFilter}
     >
-      Show { !button ? '💛' : 'all' }
+      Show { !cardStatus ? '💛' : 'all' }
     </button>
   );
 }
