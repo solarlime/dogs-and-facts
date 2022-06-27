@@ -1,30 +1,32 @@
-import React, {Suspense} from 'react';
+import React, { Suspense } from 'react';
 
+import { shallowEqual } from 'react-redux';
 import styles from './Main.module.css';
-import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import {getDogsAndFacts, selectCardByID, selectID, toggleLike} from "./MainSlice";
-import {shallowEqual} from "react-redux";
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { selectCardByID, selectID, toggleLike } from './MainSlice';
+import getDogsAndFacts from './getDogsAndFacts';
 
 function DogImage(props: { logo: string }) {
+  const { logo } = props;
   return (
-      <>
-        <img src={props.logo} className={styles.spaMainCardsCardFigureImage} alt="dog" />
-      </>
+    <img src={logo} className={styles.spaMainCardsCardFigureImage} alt="dog" />
   );
 }
 
 function DogFact(props: { fact: string }) {
+  const { fact } = props;
   return (
     <figcaption>
-      {props.fact}
+      {fact}
     </figcaption>
   );
 }
 
 function Like(props: { id: string, liked: boolean }) {
   const dispatch = useAppDispatch();
+  const { id, liked } = props;
   const toggle = () => {
-    dispatch(toggleLike(props.id));
+    dispatch(toggleLike(id));
   };
 
   const isLiked = (like: boolean) => {
@@ -36,52 +38,57 @@ function Like(props: { id: string, liked: boolean }) {
       return {
         class: styles.spaMainCardsCardFigureButtonsLiked,
         content: '💛',
-      }
+      };
     }
     return element;
   };
 
-  const result = isLiked(props.liked);
+  const result = isLiked(liked);
 
   return (
-    <>
-      {
-        <button
-          className={
+    <button
+      type="button"
+      className={
           `${styles.spaMainCardsCardFigureButtonsButton} ${result.class}`
         }
-          onClick={toggle}
-        >{result.content}</button>
-      }
-    </>
+      onClick={toggle}
+    >
+      {result.content}
+    </button>
   );
 }
 
 function Delete(props: { id: string }) {
   const dispatch = useAppDispatch();
+  const { id } = props;
   const deleteAndFetchCard = () => {
-    dispatch(getDogsAndFacts({length: 1, deleteItem: props.id}));
+    dispatch(getDogsAndFacts({ length: 1, deleteItem: id }));
   };
 
   return (
     <button
-      className={styles.spaMainCardsCardFigureButtonsButton + ' ' + styles.spaMainCardsCardFigureButtonsDelete}
+      type="button"
+      className={`${styles.spaMainCardsCardFigureButtonsButton} ${styles.spaMainCardsCardFigureButtonsDelete}`}
       onClick={deleteAndFetchCard}
-    >❌</button>
+    >
+      ❌
+    </button>
   );
 }
 
 function Buttons(props: { id: string, liked: boolean }) {
-  return(
+  const { liked, id } = props;
+  return (
     <div className={styles.spaMainCardsCardFigureButtons}>
-      <Like id={props.id} liked={props.liked} />
-      <Delete id={props.id} />
+      <Like id={id} liked={liked} />
+      <Delete id={id} />
     </div>
   );
 }
 
 function Card(props: { id: string }) {
-  const card = useAppSelector((state) => selectCardByID(state, props.id));
+  const { id } = props;
+  const card = useAppSelector((state) => selectCardByID(state, id));
   return (
     <article className={styles.spaMainCardsCard}>
       <figure className={styles.spaMainCardsCardFigure}>
@@ -93,14 +100,12 @@ function Card(props: { id: string }) {
   );
 }
 
-export function Main() {
+function Main() {
   const data = useAppSelector(selectID, shallowEqual);
 
-  const cards = data.map((id) => {
-    return (
-      <Card key={id} id={id} />
-    );
-  });
+  const cards = data.map((id) => (
+    <Card key={id} id={id} />
+  ));
 
   if (!window.CSS.supports('grid-template-rows', 'masonry')) {
     const Masonry = React.lazy(() => import('react-masonry-css'));
@@ -109,7 +114,9 @@ export function Main() {
         <Suspense fallback={<div>Loading layout...</div>}>
           <Masonry
             className={styles.masonryGrid}
-            breakpointCols={{ default: 7, 450: 1, 700: 2, 950: 3, 1150: 4, 1400: 5, 1600: 6 }}
+            breakpointCols={{
+              default: 7, 450: 1, 700: 2, 950: 3, 1150: 4, 1400: 5, 1600: 6,
+            }}
             columnClassName={styles.masonryGridColumn}
           >
             {cards}
@@ -129,3 +136,5 @@ export function Main() {
     </main>
   );
 }
+
+export default Main;

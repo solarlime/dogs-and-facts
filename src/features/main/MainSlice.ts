@@ -1,8 +1,7 @@
-import {createAsyncThunk, createSelector, createSlice} from "@reduxjs/toolkit";
-import uniqueID from "uniqid";
-import { dogAPI, factsAPI } from "./apiInterfaces";
-import {RootState} from "../../app/store";
-import {selectCardStatus} from "../filters/FiltersSlice";
+import { createSelector, createSlice } from '@reduxjs/toolkit';
+import type { RootState } from '../../app/store';
+import { selectCardStatus } from '../filters/FiltersSlice';
+import getDogsAndFacts from './getDogsAndFacts';
 
 interface MainState {
   data: Array<{
@@ -18,34 +17,6 @@ const initialState: MainState = {
   data: [],
   status: 'idle',
 };
-
-async function fetchData(url: string): Promise<dogAPI | factsAPI | string> {
-  try {
-    const response = await fetch(`${url}`);
-    const result: dogAPI | factsAPI = await response.json();
-    return result;
-  } catch (e) {
-    return url;
-  }
-}
-
-export const getDogsAndFacts = createAsyncThunk('main/getDogsAndFacts', async (parameters: { length: number, deleteItem?: string }) => {
-  const { length } = parameters;
-  const rawResults = await Promise.all([
-    fetchData(`https://dog.ceo/api/breeds/image/random/${length}`),
-    fetchData(`https://www.dogfactsapi.ducnguyen.dev/api/v1/facts/?number=${length}`)
-  ]);
-  const [dogs, facts] = rawResults;
-  const result = (dogs as dogAPI).message.map((dog: string, i: number) => {
-    return {
-      id: uniqueID(), dog, fact: (facts as factsAPI).facts[i], liked: false,
-    }
-  });
-  if (parameters.deleteItem) {
-    return { result, deleteItem: parameters.deleteItem }
-  }
-  return { result };
-});
 
 const mainSlice = createSlice({
   name: 'main',
@@ -65,10 +36,10 @@ const mainSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(getDogsAndFacts.fulfilled, (state, action) => {
-        const deleteItem = action.payload.deleteItem;
+        const { deleteItem } = action.payload;
         if (deleteItem) {
           const newData = state.data.filter((card) => card.id !== deleteItem).map((card) => card);
-          newData.push(action.payload.result[0])
+          newData.push(action.payload.result[0]);
           state.data = newData;
         } else {
           state.data = action.payload.result;
@@ -77,7 +48,7 @@ const mainSlice = createSlice({
       })
       .addCase(getDogsAndFacts.rejected, (state) => {
         state.status = 'failed';
-      })
+      });
   },
 });
 
@@ -100,6 +71,7 @@ export const selectID = createSelector(
   (data) => data.map((card) => card.id),
 );
 
-export const selectCardByID = (state: RootState, id: string) => state.main.data.find((card) => card.id === id)!;
+export const selectCardByID = (state: RootState, id: string) => state.main.data
+  .find((card) => card.id === id)!;
 
 export default mainSlice.reducer;

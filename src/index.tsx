@@ -5,7 +5,7 @@ import { store } from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-import {getDogsAndFacts} from "./features/main/MainSlice";
+import { getDogsAndFacts } from './features/main/MainSlice';
 
 const container = document.getElementById('root')!;
 const root = createRoot(container);
@@ -15,10 +15,10 @@ root.render(
     <Provider store={store}>
       <App />
     </Provider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
 
-store.dispatch(getDogsAndFacts({length: 10}));
+store.dispatch(getDogsAndFacts({ length: 10 }));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

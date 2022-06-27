@@ -1,5 +1,5 @@
-import {createSelector, createSlice} from "@reduxjs/toolkit";
-import {RootState} from "../../app/store";
+import { createSelector, createSlice } from '@reduxjs/toolkit';
+import type { RootState } from '../../app/store';
 
 interface FiltersState {
   liked: boolean,

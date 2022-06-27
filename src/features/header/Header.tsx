@@ -1,8 +1,8 @@
 import React from 'react';
 
 import styles from './Header.module.css';
-import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import {likeFilterChange, selectCardStatus} from "../filters/FiltersSlice";
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { likeFilterChange, selectCardStatus } from '../filters/FiltersSlice';
 
 function FilterButton() {
   const cardStatus = useAppSelector(selectCardStatus);
@@ -10,19 +10,22 @@ function FilterButton() {
 
   const toggleLikeFilter = () => {
     dispatch(likeFilterChange(!cardStatus));
-  }
+  };
 
   return (
     <button
+      type="button"
       className={styles.spaHeaderFilterLiked}
       onClick={toggleLikeFilter}
     >
-      Show { !cardStatus ? '💛' : 'all' }
+      Show
+      {' '}
+      { !cardStatus ? '💛' : 'all' }
     </button>
   );
 }
 
-export function Header() {
+function Header() {
   return (
     <header
       className={styles.spaHeader}
@@ -36,3 +39,5 @@ export function Header() {
     </header>
   );
 }
+
+export default Header;

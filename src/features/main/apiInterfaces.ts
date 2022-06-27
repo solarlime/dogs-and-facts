@@ -1,9 +1,9 @@
-export interface dogAPI {
+export interface DogAPI {
   message: Array<string>,
   status: 'success',
 }
 
-export interface factsAPI {
+export interface FactsAPI {
   facts: Array<string>,
   success: true,
 }
