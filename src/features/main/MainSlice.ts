@@ -3,7 +3,7 @@ import type { RootState } from '../../app/store';
 import { selectCardStatus } from '../filters/FiltersSlice';
 import getDogsAndFacts from './getDogsAndFacts';
 
-interface MainState {
+export interface MainState {
   data: Array<{
     id: string,
     dog: string,

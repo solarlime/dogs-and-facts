@@ -1,7 +1,7 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../../app/store';
 
-interface FiltersState {
+export interface FiltersState {
   liked: boolean,
 }
 
