@@ -29,9 +29,8 @@ async function fetchData(url: string): Promise<dogAPI | factsAPI | string> {
   }
 }
 
-export const getDogsAndFacts = createAsyncThunk('main/getDogsAndFacts', async () => {
-  const length = 10;
-
+export const getDogsAndFacts = createAsyncThunk('main/getDogsAndFacts', async (parameters: { length: number, deleteItem?: string }) => {
+  const { length } = parameters;
   const rawResults = await Promise.all([
     fetchData(`https://dog.ceo/api/breeds/image/random/${length}`),
     fetchData(`https://www.dogfactsapi.ducnguyen.dev/api/v1/facts/?number=${length}`)
@@ -41,8 +40,11 @@ export const getDogsAndFacts = createAsyncThunk('main/getDogsAndFacts', async ()
     return {
       id: uniqueID(), dog, fact: (facts as factsAPI).facts[i], liked: false,
     }
-  })
-  return result;
+  });
+  if (parameters.deleteItem) {
+    return { result, deleteItem: parameters.deleteItem }
+  }
+  return { result };
 });
 
 const mainSlice = createSlice({
@@ -56,7 +58,6 @@ const mainSlice = createSlice({
         card.liked = !card.liked;
       }
     },
-    likeFilterChange: (state, action) => {},
   },
   extraReducers: (builder) => {
     builder
@@ -64,7 +65,14 @@ const mainSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(getDogsAndFacts.fulfilled, (state, action) => {
-        state.data = action.payload;
+        const deleteItem = action.payload.deleteItem;
+        if (deleteItem) {
+          const newData = state.data.filter((card) => card.id !== deleteItem).map((card) => card);
+          newData.push(action.payload.result[0])
+          state.data = newData;
+        } else {
+          state.data = action.payload.result;
+        }
         state.status = 'idle';
       })
       .addCase(getDogsAndFacts.rejected, (state) => {

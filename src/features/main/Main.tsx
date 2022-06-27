@@ -2,7 +2,7 @@ import React, {Suspense} from 'react';
 
 import styles from './Main.module.css';
 import {useAppDispatch, useAppSelector} from "../../app/hooks";
-import {selectCardByID, selectID, toggleLike} from "./MainSlice";
+import {getDogsAndFacts, selectCardByID, selectID, toggleLike} from "./MainSlice";
 import {shallowEqual} from "react-redux";
 
 function DogImage(props: { logo: string }) {
@@ -57,9 +57,17 @@ function Like(props: { id: string, liked: boolean }) {
   );
 }
 
-function Delete() {
+function Delete(props: { id: string }) {
+  const dispatch = useAppDispatch();
+  const deleteAndFetchCard = () => {
+    dispatch(getDogsAndFacts({length: 1, deleteItem: props.id}));
+  };
+
   return (
-    <button className={styles.spaMainCardsCardFigureButtonsButton + ' ' + styles.spaMainCardsCardFigureButtonsDelete}>❌</button>
+    <button
+      className={styles.spaMainCardsCardFigureButtonsButton + ' ' + styles.spaMainCardsCardFigureButtonsDelete}
+      onClick={deleteAndFetchCard}
+    >❌</button>
   );
 }
 
@@ -67,7 +75,7 @@ function Buttons(props: { id: string, liked: boolean }) {
   return(
     <div className={styles.spaMainCardsCardFigureButtons}>
       <Like id={props.id} liked={props.liked} />
-      <Delete />
+      <Delete id={props.id} />
     </div>
   );
 }
