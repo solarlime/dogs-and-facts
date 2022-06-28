@@ -31,6 +31,9 @@ jobs:
       - name: Testing
         run: CI=true yarn run test
 
+      - name: Building
+        run: yarn run build
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
