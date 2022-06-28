@@ -1,0 +1,6 @@
+Photos used:
+
+logo192.png, logo512.png, favicon.ico:
+- Author:  Joséphine Menge (@madamemenge)
+- Photo: https://unsplash.com/photos/h7VBJRBcieM
+- Licence: https://unsplash.com/license
