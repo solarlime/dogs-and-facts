@@ -28,5 +28,5 @@ jobs:
       - name: Install dependencies
         run: yarn
 
-      - name: Linting & Testing
-        run: yarn run lint & CI=true yarn run test
+      - name: Testing
+        run: CI=true yarn run test
