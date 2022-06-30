@@ -2,6 +2,10 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import uniqueID from 'uniqid';
 import { DogAPI, FactsAPI } from './apiInterfaces';
 
+/**
+ * Служебная функция-обёртка над fetch
+ * @param url
+ */
 async function fetchData(url: string): Promise<DogAPI | FactsAPI | string> {
   try {
     const response = await fetch(`${url}`);
@@ -12,6 +16,10 @@ async function fetchData(url: string): Promise<DogAPI | FactsAPI | string> {
   }
 }
 
+/**
+ * Обращаемся к API через AsyncThunk. Для возможности удаления карточки пробрасываем её id
+ * и возвращаем отдельно от результирующего массива
+ */
 const getDogsAndFacts = createAsyncThunk('main/getDogsAndFacts', async (parameters: { length: number, deleteItem?: string }) => {
   const { length } = parameters;
   const rawResults = await Promise.all([
@@ -19,6 +27,7 @@ const getDogsAndFacts = createAsyncThunk('main/getDogsAndFacts', async (paramete
     fetchData(`https://www.dogfactsapi.ducnguyen.dev/api/v1/facts/?number=${length}`),
   ]);
   const [dogs, facts] = rawResults;
+  // Вместо 2 объектов в массиве создаём объединённый массив объектов
   const result = (dogs as DogAPI).message.map((dog: string, i: number) => ({
     id: uniqueID(), dog, fact: (facts as FactsAPI).facts[i], liked: false,
   }));

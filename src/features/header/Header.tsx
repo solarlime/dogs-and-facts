@@ -4,6 +4,9 @@ import styles from './Header.module.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { likeFilterChange, selectCardStatus } from '../filters/FiltersSlice';
 
+/**
+ * Компонент для отрисовки кнопки фильтрации по "лайкам"
+ */
 function FilterButton() {
   const cardStatus = useAppSelector(selectCardStatus);
   const dispatch = useAppDispatch();
@@ -25,6 +28,9 @@ function FilterButton() {
   );
 }
 
+/**
+ * Компонент заголовка
+ */
 function Header() {
   return (
     <header

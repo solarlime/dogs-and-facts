@@ -36,13 +36,15 @@ const mainSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(getDogsAndFacts.fulfilled, (state, action) => {
-        const { deleteItem } = action.payload;
+        const { deleteItem, result } = action.payload;
+        // Если был передан id для удаления, возвращаем новый массив без этого id,
+        // модифицируем его и присваиваем состоянию
         if (deleteItem) {
           const newData = state.data.filter((card) => card.id !== deleteItem).map((card) => card);
-          newData.push(action.payload.result[0]);
+          newData.push(result[0]);
           state.data = newData;
         } else {
-          state.data = action.payload.result;
+          state.data = result;
         }
         state.status = 'idle';
       })
@@ -55,6 +57,7 @@ const mainSlice = createSlice({
 export const { toggleLike } = mainSlice.actions;
 export const selectData = (state: RootState) => state.main.data;
 
+// Используем фильтр, чтобы вернуть только необходимые карточки
 export const selectLikedData = createSelector(
   selectData,
   selectCardStatus,
@@ -71,6 +74,7 @@ export const selectID = createSelector(
   (data) => data.map((card) => card.id),
 );
 
+// Возвращаем не весь массив карточек, а лишь необходимую
 export const selectCardByID = (state: RootState, id: string) => state.main.data
   .find((card) => card.id === id)!;
 

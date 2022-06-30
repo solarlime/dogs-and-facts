@@ -6,6 +6,9 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectCardByID, selectID, toggleLike } from './MainSlice';
 import getDogsAndFacts from './getDogsAndFacts';
 
+/**
+ * Компонент для отрисовки картинки
+ */
 function DogImage(props: { logo: string }) {
   const { logo } = props;
   return (
@@ -13,6 +16,9 @@ function DogImage(props: { logo: string }) {
   );
 }
 
+/**
+ * Компонент для отрисовки текста факта
+ */
 function DogFact(props: { fact: string }) {
   const { fact } = props;
   return (
@@ -22,6 +28,9 @@ function DogFact(props: { fact: string }) {
   );
 }
 
+/**
+ * Компонент для отрисовки кнопки "лайка"
+ */
 function Like(props: { id: string, liked: boolean }) {
   const dispatch = useAppDispatch();
   const { id, liked } = props;
@@ -29,6 +38,7 @@ function Like(props: { id: string, liked: boolean }) {
     dispatch(toggleLike(id));
   };
 
+  // Меняем внешний вид в зависимости от состояния "лайка"
   const isLiked = (like: boolean) => {
     const element: { class: string, content: string } = {
       class: styles.spaMainCardsCardFigureButtonsLike,
@@ -58,6 +68,9 @@ function Like(props: { id: string, liked: boolean }) {
   );
 }
 
+/**
+ * Компонент для отрисовки кнопки удаления
+ */
 function Delete(props: { id: string }) {
   const dispatch = useAppDispatch();
   const { id } = props;
@@ -76,6 +89,9 @@ function Delete(props: { id: string }) {
   );
 }
 
+/**
+ * Компонент-обёртка над компонентами кнопок
+ */
 function Buttons(props: { id: string, liked: boolean }) {
   const { liked, id } = props;
   return (
@@ -86,6 +102,9 @@ function Buttons(props: { id: string, liked: boolean }) {
   );
 }
 
+/**
+ * Компонент для содержимого карточки. На этом уровне (а не выше) извлекаем данные для карточки
+ */
 function Card(props: { id: string }) {
   const { id } = props;
   const card = useAppSelector((state) => selectCardByID(state, id));
@@ -100,6 +119,10 @@ function Card(props: { id: string }) {
   );
 }
 
+/**
+ * Главный компонент. На этом уровне извлекаем лишь id.
+ * Подгружаем кирпичную раскладку лишь при необходимости
+ */
 function Main() {
   const data = useAppSelector(selectID, shallowEqual);
 
