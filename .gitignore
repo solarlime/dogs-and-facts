@@ -24,3 +24,15 @@ yarn-error.log*
 
 #webstorm files
 /.idea
+
+#vercel files
+.vercel
+
+# yarn 2 files
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
