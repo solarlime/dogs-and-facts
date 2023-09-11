@@ -1,5 +1,3 @@
-import React from 'react';
-
 import styles from './Header.module.css';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { likeFilterChange, selectCardStatus } from '../filters/FiltersSlice';

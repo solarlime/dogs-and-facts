@@ -24,7 +24,7 @@ const getDogsAndFacts = createAsyncThunk('main/getDogsAndFacts', async (paramete
   const { length } = parameters;
   const rawResults = await Promise.all([
     fetchData(`https://dog.ceo/api/breeds/image/random/${length}`),
-    fetchData(`${process.env.REACT_APP_HOST}/api/facts?number=${length}`),
+    fetchData(`${import.meta.env.VITE_APP_HOST}/api/facts?number=${length}`),
   ]);
   const [dogs, facts] = rawResults;
   // Вместо 2 объектов в массиве создаём объединённый массив объектов
