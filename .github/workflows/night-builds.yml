@@ -1,9 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
 name: CI
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 # Controls when the action will run.
 on:
