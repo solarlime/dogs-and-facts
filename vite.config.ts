@@ -14,8 +14,15 @@ export default defineConfig({
     coverage: {
       reporter: ['text', 'html'],
       exclude: [
+        '.yarn/',
+        '.pnp.cjs',
+        '.pnp.loader.mjs',
+        '.eslintrc.cjs',
+        'vite.config.ts',
         'node_modules/',
         'src/setupTests.ts',
+        'src/vite-env.d.ts',
+        'dist',
       ],
     },
   },
