@@ -57,7 +57,7 @@
     "happy-dom": "^15.10.2",
     "typescript": "~5.2.2",
     "vite": "^5.4.8",
-    "vitest": "^2.1.2"
+    "vitest": "^2.1.9"
   },
   "peerDependencies": {
     "@testing-library/dom": "^7.31.2"
